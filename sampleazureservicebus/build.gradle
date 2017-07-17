@@ -1,0 +1,36 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.3.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+
+dependencies {
+	
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile group: 'com.microsoft.azure', name: 'azure-core', version: '0.9.7'
+
+	// https://mvnrepository.com/artifact/com.microsoft.azure/azure-servicebus
+	compile group: 'com.microsoft.azure', name: 'azure-servicebus', version: '1.0.0-PREVIEW'
+
+	// https://mvnrepository.com/artifact/com.microsoft.windowsazure/microsoft-azure-api-servicebus
+	compile group: 'com.microsoft.windowsazure', name: 'microsoft-azure-api-servicebus', version: '0.5.0'
+	
+}
