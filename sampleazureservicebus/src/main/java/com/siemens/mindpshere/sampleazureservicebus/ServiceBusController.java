@@ -33,36 +33,11 @@ public class ServiceBusController {
         
         StringBuilder response = new StringBuilder("Successfully sent");
 
-        //Sample URL : sb://namespace_DNS_Name;EntityPath=EVENT_HUB_NAME;SharedAccessKeyName=SHARED_ACCESS_KEY_NAME;SharedAccessKey=SHARED_ACCESS_KEY
-        //String connectionString = "Endpoint=sb://formindspherepoc.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=hrJiwSAuA98jdbELaMaGo59rs9enZd4UfA1uzaHgacY=";
-        // String connectionString = "Endpoint=sb://mindspherepoc.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=sT0SFEPwI4WZViBF6xiRr4cQ/p9HsDCqGB38zuQDEkM=";
 
         try{
         	
-            /*QueueClient queueClient = new QueueClient(connectionString, ReceiveMode.PeekLock);
-            
-
-            sendMessages(NUMBER_OF_MESSAGES);
-            queueClient.close();*/
-        	
-        	
-        	
-
-			/*Configuration configuration = ServiceBusConfiguration.configureWithWrapAuthentication("mindspherepoc",
-					"owner", "sT0SFEPwI4WZViBF6xiRr4cQ/p9HsDCqGB38zuQDEkM=",
-					"https://mindspherepoc.servicebus.windows.net:443/", "-sb.accesscontrol.windows.net/WRAPv0.9");
-			ServiceBusContract service = ServiceBusService.create(configuration);
-			TopicInfo topicInfo = new TopicInfo("TestTopicMilesh");
-			CreateTopicResult result = service.createTopic(topicInfo);
-			response = result.getValue().getPath();*/
-
-            //https://MindspherePoc.servicebus.windows.net/testtopic
-			
         	
         	//Sending the message to Topic
-			ConnectionStringBuilder conStrToTopic = new ConnectionStringBuilder("mindspherepoc",
-                    "topicforpoc", "RootManageSharedAccessKey",
-                    "sT0SFEPwI4WZViBF6xiRr4cQ/p9HsDCqGB38zuQDEkM=");
 			TopicClient topicClient = new TopicClient(conStrToTopic.toString());
 
 	        for(int i = 1; i <= 2; i ++) {
@@ -76,9 +51,6 @@ public class ServiceBusController {
 	        topicClient.close();
 
 	        //Sending message to Queue
-	        ConnectionStringBuilder conStrSend = new ConnectionStringBuilder("mindspherepoc",
-                    "testqueue", "RootManageSharedAccessKey",
-                    "sT0SFEPwI4WZViBF6xiRr4cQ/p9HsDCqGB38zuQDEkM=");
 	        QueueClient queueClient = new QueueClient(conStrSend.toString(), ReceiveMode.PeekLock);
 	        for(int i = 1; i <= 2; i ++) {
 	            Message message = new Message("TestOnQueue");
@@ -90,14 +62,6 @@ public class ServiceBusController {
 	        response.append("{ Message sent to Queue client id["+queueClient.getClientId()+"] entity path["+queueClient.getEntityPath()+"]},");
 	        queueClient.close();
 
-	        // Receiving Message from Subscription
-            /*ConnectionStringBuilder conStrReceive = new ConnectionStringBuilder("mindspherepoc",
-                    "topicforpoc", "RootManageSharedAccessKey",
-                    "sT0SFEPwI4WZViBF6xiRr4cQ/p9HsDCqGB38zuQDEkM=");
-            SubscriptionClient subscriptionClient = new SubscriptionClient(conStrReceive.toString(), ReceiveMode.PeekLock);
-            Collection<IMessageSession> sess= subscriptionClient.getMessageSessions();
-            response.append("{Message received Sessions: [" + sess.size()+"]}");
-			subscriptionClient.close();*/
 
         } catch (Exception e) {
             response.append("{ Exception : "+e.getMessage()+"}");
